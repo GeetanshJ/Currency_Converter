@@ -1,5 +1,4 @@
 const countryList = {
-    USD: "US",
     AED: "AE",
     AFN: "AF",
     XCD: "AG",
@@ -149,6 +148,7 @@ const countryList = {
     TZS: "TZ",
     UAH: "UA",
     UGX: "UG",
+    USD: "US",
     UYU: "UY",
     UZS: "UZ",
     VEF: "VE",
