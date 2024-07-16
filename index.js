@@ -1,5 +1,5 @@
 const BASE_URL =
-    "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies";
+    "https://api.currencyapi.com/v3/latest?apikey=cur_live_OGH7IQNePbPkMSD93hUUN7gvHhyyn0UUKH1Pww55";
 
 const dropdowns = document.querySelectorAll(".dropdown select");
 const btn = document.querySelector("form button");
@@ -33,25 +33,28 @@ const updateExchangeRate = async () => {
         amount.value = 1;
     }
 
-    const URL = `${BASE_URL}/${fromCurr.value.toLowerCase()}/${toCurr.value.toLowerCase()}.json`;
+    const URL = `${BASE_URL}`;
     try {
         let response = await fetch(URL);
         if (!response.ok) {
             throw new Error(`Error fetching data: ${response.statusText}`);
         }
         let data = await response.json();
-        let rate = data[toCurr.value.toLowerCase()];
-        if (!rate) {
+        
+        // Check if both currencies are available in the fetched data
+        if (data.data[fromCurr.value] && data.data[toCurr.value]) {
+            let rate = data.data[toCurr.value].value / data.data[fromCurr.value].value;
+            let finalAmount = amtVal * rate;
+            msg.innerText = `${amtVal} ${fromCurr.value} = ${finalAmount.toFixed(2)} ${toCurr.value}`;
+        } else {
             throw new Error("Exchange rate not found.");
         }
-
-        let finalAmount = amtVal * rate;
-        msg.innerText = `${amtVal} ${fromCurr.value} = ${finalAmount.toFixed(2)} ${toCurr.value}`;
     } catch (error) {
         console.error("Error:", error);
         msg.innerText = "Failed to fetch conversion rate. Please try again.";
     }
 };
+
 
 const updateFlag = (element) => {
     let currCode = element.value;
