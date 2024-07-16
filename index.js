@@ -36,17 +36,13 @@ const updateExchangeRate = async () => {
     const URL = `${BASE_URL}`;
     try {
         let response = await fetch(URL);
-        if (!response.ok) {
-            throw new Error(`Error fetching data: ${response.statusText}`);
-        }
-        let data = await response.json();
-        
-        if (data.data[fromCurr.value] && data.data[toCurr.value]) {
-            let rate = data.data[toCurr.value].value / data.data[fromCurr.value].value;
+        let res = await response.json();
+        console.log(response,res);
+        if (res.data[fromCurr.value] && res.data[toCurr.value]) {
+            let rate = res.data[toCurr.value].value / res.data[fromCurr.value].value;
             let finalAmount = amtVal * rate;
             msg.innerText = `${amtVal} ${fromCurr.value} = ${finalAmount.toFixed(2)} ${toCurr.value}`;
-        } else {
-            throw new Error("Exchange rate not found.");
+
         }
     } catch (error) {
         console.error("Error:", error);
