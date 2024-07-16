@@ -75,4 +75,3 @@ exchangeBtn.addEventListener('click', function() {
     updateFlag(fromCurr);
 });
 
-document.querySelectorAll(".dropdown select").forEach(select => updateFlag(select));
