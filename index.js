@@ -6,6 +6,7 @@ const btn = document.querySelector("form button");
 const fromCurr = document.querySelector(".from select");
 const toCurr = document.querySelector(".to select");
 const msg = document.querySelector(".msg");
+const exchangeBtn = document.querySelector('.exchange-btn');
 
 for (let select of dropdowns) {
     for (let currCode in countryList) {
@@ -37,7 +38,6 @@ const updateExchangeRate = async () => {
     try {
         let response = await fetch(URL);
         let res = await response.json();
-        console.log(response,res);
         if (res.data[fromCurr.value] && res.data[toCurr.value]) {
             let rate = res.data[toCurr.value].value / res.data[fromCurr.value].value;
             let finalAmount = amtVal * rate;
@@ -64,6 +64,15 @@ const updateFlag = (element) => {
 btn.addEventListener("click", (evt) => {
     evt.preventDefault();
     updateExchangeRate();
+});
+
+
+exchangeBtn.addEventListener('click', function() {
+    const temp = fromCurr.value;
+    fromCurr.value = toCurr.value;
+    toCurr.value = temp;
+    updateFlag(toCurr);
+    updateFlag(fromCurr);
 });
 
 document.querySelectorAll(".dropdown select").forEach(select => updateFlag(select));
