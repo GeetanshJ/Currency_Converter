@@ -41,7 +41,6 @@ const updateExchangeRate = async () => {
         }
         let data = await response.json();
         
-        // Check if both currencies are available in the fetched data
         if (data.data[fromCurr.value] && data.data[toCurr.value]) {
             let rate = data.data[toCurr.value].value / data.data[fromCurr.value].value;
             let finalAmount = amtVal * rate;
